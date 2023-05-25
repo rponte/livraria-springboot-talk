@@ -5,27 +5,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.DefaultLocale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -91,12 +91,11 @@ class NovoLivroControllerIntegrationTest {
     }
 
     @Test
-//    @DefaultLocale("pt_BR")
     @DisplayName("não deve cadastrar novo livro quando parametros invalidos")
     public void t3() throws Exception {
         // cenário
         NovoLivroRequest request = new NovoLivroRequest(
-                "978-0-4703-2225-XX",
+                "978-0-INVALID-3",
                 "",
                 LocalDate.now().plusDays(1)
         );
@@ -105,7 +104,8 @@ class NovoLivroControllerIntegrationTest {
         String json = toJson(request);
         mockMvc.perform(post("/api/livros")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .header(HttpHeaders.ACCEPT_LANGUAGE, "pt_BR"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.violations", hasSize(3)))
                 .andExpect(jsonPath("$.violations", containsInAnyOrder(
