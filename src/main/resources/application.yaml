@@ -19,6 +19,42 @@ server:
 # Spring Application
 ##
 spring:
+    ##
+    # DataSource and JPA/Hibernate (PostgreSQL)
+    ##
+    datasource:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/dev_db
+        username: postgres
+        password: postgres
+        hikari:
+            auto-commit: false
+            maximum-pool-size: 20
+            connection-timeout: 10000       # 10s
+            validation-timeout: 5000        # 5s
+            max-lifetime: 1800000           # 30min
+            leak-detection-threshold: 60000 # 1min
+    jpa:
+        generate-ddl: true
+        show-sql: true
+        open-in-view: false
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                format_sql: true
+                jdbc:
+                    time_zone: UTC
+                    batch_size: 15
+                    order_inserts: true
+                    order_updates: true
+                    batch_versioned_data: true
+                connection:
+                    provider_disables_autocommit: true
+                query:
+                    in_clause_parameter_padding: true
+                    fail_on_pagination_over_collection_fetch: true
+                    plan_cache_max_size: 4096
     output:
         ansi:
             enabled: ALWAYS

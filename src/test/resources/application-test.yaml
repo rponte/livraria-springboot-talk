@@ -3,6 +3,12 @@
 ##
 spring:
     ##
+    # DataSource and JPA/Hibernate (PostgreSQL)
+    ##
+    datasource:
+        driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+        url: jdbc:tc:postgresql:14.5:////test_db
+    ##
     # Jackson
     # https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.spring-mvc.customize-jackson-objectmapper
     # https://www.baeldung.com/spring-boot-customize-jackson-objectmapper
