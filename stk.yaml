@@ -1,0 +1,13 @@
+applied_templates:
+- inputs:
+    project_artifact_id: livraria
+    project_description: Livraria com Spring Boot
+    project_group_id: br.com.zup.edu
+    project_name: livraria-springboot
+    project_springboot_version: 2.7.2
+    project_version: 0.0.1-SNAPSHOT
+  template_data_path: java-springboot-restapi-stack/default-template
+global_computed_inputs: {}
+global_inputs: {}
+stack: java-springboot-restapi-stack
+stack_type: app
