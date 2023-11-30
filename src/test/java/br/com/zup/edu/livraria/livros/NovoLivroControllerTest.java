@@ -13,13 +13,10 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(value = MockitoExtension.class)
 class NovoLivroControllerTest {
-
-    @Mock
-    private LivroRepository repository;
 
     @Test
     @DisplayName("deve cadastrar novo livro")
@@ -30,6 +27,7 @@ class NovoLivroControllerTest {
                 "Arquitetura Java",
                 LocalDate.now());
 
+        LivroRepository repository = mock(LivroRepository.class);
         when(repository.existsByIsbn("978-0-4703-2225-3")).thenReturn(false);
 
         // ação
@@ -49,6 +47,7 @@ class NovoLivroControllerTest {
                 "Outro livro de Arquitetura Java",
                 LocalDate.now());
 
+        LivroRepository repository = mock(LivroRepository.class);
         when(repository.existsByIsbn("978-0-4703-2225-3")).thenReturn(true);
 
         // ação

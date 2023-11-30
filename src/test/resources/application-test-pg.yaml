@@ -3,14 +3,18 @@
 ##
 spring:
     ##
-    # DataSource and JPA/Hibernate (H2)
+    # DataSource and JPA/Hibernate (PostgreSQL)
     ##
     datasource:
-        url: jdbc:h2:mem:test_db
-        username: sa
-    h2:
-        console:
-            enabled: false
+        driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+        url: jdbc:tc:postgresql:14.5:////test_db
+        hikari:
+            auto-commit: false
+            maximum-pool-size: 20
+            connection-timeout: 10000       # 10s
+            validation-timeout: 5000        # 5s
+            max-lifetime: 1800000           # 30min
+            leak-detection-threshold: 60000 # 1min
     ##
     # Jackson
     # https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.spring-mvc.customize-jackson-objectmapper
